@@ -1,5 +1,5 @@
 import fileInclude from "gulp-file-include";
-import webpHtmlNosvg from "gulp-webp-html-nosvg";
+import webpHtmlNosvg from "gulp-webp-html-nosvg"; //<source  srcset ="/images/catalogImage.webp" type ="image/webp">
 import versionNumber from "gulp-version-number"; //чтобы не кэшировались изменения в браузере
 
 export const html = () => {
@@ -12,7 +12,8 @@ export const html = () => {
         )
         .pipe(fileInclude())
         .pipe(app.plugins.replace(/@img\//g, 'img/'))
-        .pipe(webpHtmlNosvg())
+        //.pipe(webpHtmlNosvg()) функция делает обертку на картинках(< source  srcset =" /images/catalogImage.webp " type =" image/webp " > )
+        // а браузер не хочет их показывать
         .pipe(
             versionNumber({
                 'value': '%DT%',
@@ -30,5 +31,6 @@ export const html = () => {
             })
         )
         .pipe(app.gulp.dest(app.path.build.html))
+        .pipe(app.plugins.browsersync.stream());
 }
         
